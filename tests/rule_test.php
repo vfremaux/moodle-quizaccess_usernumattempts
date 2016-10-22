@@ -39,19 +39,20 @@ class quizaccess_numattempts_testcase extends advanced_testcase {
     public function test_user_num_attempts_access_rule() {
         global $USER;
 
-        $quiz = new stdClass();
+        $course = $this->getDataGenerator()->create_course();
 
-        $cm = new stdClass();
-        $cm->id = 0;
+        $generator = $this->getDataGenerator()->get_plugin_generator('mod_quiz');
+        $quizrec = $generator->create_instance(array('course' => $course->id));
 
+        $cm = get_coursemodule_from_instance('quiz', $quizrec->id);
         $quizobj = new quiz($quiz, $cm, null);
         $rule = new quizaccess_usernumattempts($quizobj, 0);
 
         $user1 = $this->getDataGenerator()->create_user();
-        $user1 = $this->getDataGenerator()->add_user_credits($user1, 3);
+        $user1 = $this->getDataGenerator()->set_user_credits($user1, $quizrec->id, 3);
 
         $user2 = $this->getDataGenerator()->create_user();
-        $user2 = $this->getDataGenerator()->add_user_credits($user1, 10);
+        $user2 = $this->getDataGenerator()->set_user_credits($user1, $quizrec->id, 10);
 
         $this->assertEquals($rule->description(),
             get_string('attemptsallowedn', 'quizaccess_usernumattempts', 3));
