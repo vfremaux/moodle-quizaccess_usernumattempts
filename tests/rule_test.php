@@ -45,7 +45,7 @@ class quizaccess_numattempts_testcase extends advanced_testcase {
         $quizrec = $generator->create_instance(array('course' => $course->id));
 
         $cm = get_coursemodule_from_instance('quiz', $quizrec->id);
-        $quizobj = new quiz($quiz, $cm, null);
+        $quizobj = new quiz($quizrec, $cm, null);
         $rule = new quizaccess_usernumattempts($quizobj, 0);
 
         $user1 = $this->getDataGenerator()->create_user();
