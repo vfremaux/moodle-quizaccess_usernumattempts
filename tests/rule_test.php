@@ -34,12 +34,10 @@ require_once($CFG->dirroot.'/mod/quiz/accessrule/usernumattempts/rule.php');
  *
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class quizaccess_numattempts_testcase extends basic_testcase {
+class quizaccess_numattempts_testcase extends advanced_testcase {
 
     public function test_user_num_attempts_access_rule() {
         global $USER;
-
-        $user0 = $USER;
 
         $quiz = new stdClass();
 
@@ -58,7 +56,7 @@ class quizaccess_numattempts_testcase extends basic_testcase {
         $this->assertEquals($rule->description(),
             get_string('attemptsallowedn', 'quizaccess_usernumattempts', 3));
 
-        $USER = $user1;
+        $this->setUser($user1);
 
         $this->assertFalse($rule->prevent_new_attempt(0, $attempt));
         $this->assertFalse($rule->prevent_new_attempt(2, $attempt));
@@ -67,7 +65,7 @@ class quizaccess_numattempts_testcase extends basic_testcase {
         $this->assertEquals($rule->prevent_new_attempt(666, $attempt),
             get_string('nomoreattempts', 'quiz'));
 
-        $USER = $user2;
+        $this->setUser($user2);
 
         $this->assertFalse($rule->prevent_new_attempt(0, $attempt));
         $this->assertFalse($rule->prevent_new_attempt(5, $attempt));
@@ -76,14 +74,14 @@ class quizaccess_numattempts_testcase extends basic_testcase {
         $this->assertEquals($rule->prevent_new_attempt(666, $attempt),
             get_string('nomoreattempts', 'quiz'));
 
-        $USER = $user1;
+        $this->setUser($user1);
 
         $this->assertFalse($rule->is_finished(0, $attempt));
         $this->assertFalse($rule->is_finished(2, $attempt));
         $this->assertTrue($rule->is_finished(3, $attempt));
         $this->assertTrue($rule->is_finished(666, $attempt));
 
-        $USER = $user2;
+        $this->setUser($user2);
 
         $this->assertFalse($rule->is_finished(0, $attempt));
         $this->assertFalse($rule->is_finished(5, $attempt));
