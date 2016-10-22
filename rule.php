@@ -50,7 +50,6 @@ class quizaccess_usernumattempts extends quiz_access_rule_base {
     }
 
     public static function add_settings_form_fields(mod_quiz_mod_form $quizform, MoodlequickForm $mform) {
-        global $COURSE;
 
         $mform->addElement('checkbox', 'usernumattemptsenabled', get_string('enable', 'quizaccess_usernumattempts'));
     }
@@ -61,7 +60,7 @@ class quizaccess_usernumattempts extends quiz_access_rule_base {
         if ($this->is_enabled()) {
             $params = array('quizid' => $this->quiz->id, 'userid' => $USER->id);
             $usermaxattempts = $DB->get_field('qa_usernumattempts_limits', 'maxattempts', $params);
-    
+
             if ($numprevattempts >= $usermaxattempts) {
                 return get_string('nomoreattempts', 'quizaccess_usernumattempts');
             }
@@ -142,7 +141,9 @@ class quizaccess_usernumattempts extends quiz_access_rule_base {
      *        plugin name, to avoid collisions.
      */
     public static function get_settings_sql($quizid) {
-        return array('qaun.enabled as usernumattemptsenabled', 'LEFT JOIN {qa_usernumattempts} qaun ON qaun.quizid = quiz.id ', array());
+        return array('qaun.enabled as usernumattemptsenabled',
+                     'LEFT JOIN {qa_usernumattempts} qaun ON qaun.quizid = quiz.id ',
+                     array());
     }
 
     public function is_enabled() {
