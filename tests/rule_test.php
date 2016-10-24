@@ -37,7 +37,6 @@ require_once($CFG->dirroot.'/mod/quiz/accessrule/usernumattempts/rule.php');
 class quizaccess_numattempts_testcase extends advanced_testcase {
 
     public function test_user_num_attempts_access_rule() {
-        global $USER;
 
         $course = $this->getDataGenerator()->create_course();
 
@@ -51,10 +50,10 @@ class quizaccess_numattempts_testcase extends advanced_testcase {
         $rulegenerator = $this->getDataGenerator()->get_plugin_generator('quizaccess_usernumattempts');
 
         $user1 = $this->getDataGenerator()->create_user();
-        $rulegenerator->set_user_credits($user1, $quizrec->id, 3);
+        $rulegenerator->set_user_credits($user1->id, $quizrec->id, 3);
 
         $user2 = $this->getDataGenerator()->create_user();
-        $rulegenerator->set_user_credits($user1, $quizrec->id, 10);
+        $rulegenerator->set_user_credits($user2->id, $quizrec->id, 10);
 
         $this->assertEquals($rule->description(), get_string('attemptsallowedn', 'quizaccess_usernumattempts', 3));
 
