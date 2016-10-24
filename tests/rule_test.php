@@ -37,24 +37,25 @@ require_once($CFG->dirroot.'/mod/quiz/accessrule/usernumattempts/rule.php');
 class quizaccess_numattempts_testcase extends advanced_testcase {
 
     public function test_user_num_attempts_access_rule() {
-        global $USER;
 
-        $quiz = new stdClass();
+        $course = $this->getDataGenerator()->create_course();
 
-        $cm = new stdClass();
-        $cm->id = 0;
+        $generator = $this->getDataGenerator()->get_plugin_generator('mod_quiz');
+        $quizrec = $generator->create_instance(array('course' => $course->id));
 
-        $quizobj = new quiz($quiz, $cm, null);
+        $cm = get_coursemodule_from_instance('quiz', $quizrec->id);
+        $quizobj = new quiz($quizrec, $cm, null);
         $rule = new quizaccess_usernumattempts($quizobj, 0);
 
+        $rulegenerator = $this->getDataGenerator()->get_plugin_generator('quizaccess_usernumattempts');
+
         $user1 = $this->getDataGenerator()->create_user();
-        $user1 = $this->getDataGenerator()->add_user_credits($user1, 3);
+        $rulegenerator->set_user_credits($user1->id, $quizrec->id, 3);
 
         $user2 = $this->getDataGenerator()->create_user();
-        $user2 = $this->getDataGenerator()->add_user_credits($user1, 10);
+        $rulegenerator->set_user_credits($user2->id, $quizrec->id, 10);
 
-        $this->assertEquals($rule->description(),
-            get_string('attemptsallowedn', 'quizaccess_usernumattempts', 3));
+        $this->assertEquals($rule->description(), get_string('attemptsallowedn', 'quizaccess_usernumattempts', 3));
 
         $this->setUser($user1);
 
