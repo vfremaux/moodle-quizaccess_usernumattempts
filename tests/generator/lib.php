@@ -15,17 +15,35 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for the quizaccess_usernumattempts plugin.
+ * quizaccess_usernumattempts data generator.
  *
- * @category    quizaccess
  * @package     quizaccess_usernumattempts
- * @author      Valery Fremaux <valery.fremaux@gmail.com>
- * @copyright   2014 onwards Valery Fremaux
+ * @category    quizaccess
+ * @subpackage  test
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
 defined('MOODLE_INTERNAL') || die();
 
-$string['attemptsallowedn'] = 'Tentatives allouées pour l\'utilisateur : {$a}';
-$string['pluginname'] = 'Tentatives allouées par utilisateur';
-$string['nomoreattempts'] = 'Vous n\'avez plus de tentatives dans votre compte.';
-$string['enable'] = 'Activer la limitation de tentatives par utilisateur';
+/**
+ * quizaccess_usernumattempts data generator class.
+ */
+class quizaccess_usernumattempts_generator extends component_generator_base {
+
+    public function set_user_credits($userid, $quizid, $credits) {
+        global $DB;
+
+        if ($oldrec = $DB->get_record('qa_usernumattempts_limits', array('userid' => $userid, 'quizid' => $quizid))) {
+            $oldrec->maxattempts = $credits;
+            $DB->update_record('qa_usernumattempts_limits', $oldrec);
+        } else {
+            $rec = new Stdclass();
+            $rec->userid = $userid;
+            $rec->quizid = $quizid;
+            $rec->maxattempts = $credits;
+            $DB->insert_record('qa_usernumattempts_limits', $rec);
+        }
+    }
+
+}
+
