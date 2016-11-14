@@ -76,7 +76,7 @@ class quizaccess_usernumattempts extends quiz_access_rule_base {
             $usermaxattempts = $DB->get_field('qa_usernumattempts_limits', 'maxattempts', $params);
             return $numprevattempts >= $this->quiz->attempts;
         }
-        return true;
+        return false;
     }
 
     /**
