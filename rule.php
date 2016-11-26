@@ -101,7 +101,7 @@ class quizaccess_usernumattempts extends quiz_access_rule_base {
         } else {
             if ($oldrecord = $DB->get_record('qa_usernumattempts', array('quizid' => $quiz->id))) {
                 $oldrecord->enabled = 0;
-                $DB->update_record('qa_usernumattempts', $record);
+                $DB->update_record('qa_usernumattempts', $oldrecord);
             }
         }
     }
