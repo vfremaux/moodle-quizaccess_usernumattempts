@@ -29,3 +29,4 @@ $string['attemptsallowedn'] = 'Attempts allowed for user : {$a}';
 $string['pluginname'] = 'Number of attempts per user quiz access rule';
 $string['nomoreattempts'] = 'You have no more attempts into your user account.';
 $string['enable'] = 'Enable user attempt limits';
+$string['forcecloseattempts'] = 'force close attempts';
