@@ -52,6 +52,7 @@ class quizaccess_usernumattempts extends quiz_access_rule_base {
     public static function add_settings_form_fields(mod_quiz_mod_form $quizform, MoodlequickForm $mform) {
 
         $mform->addElement('checkbox', 'usernumattemptsenabled', get_string('enable', 'quizaccess_usernumattempts'));
+        $mform->addElement('checkbox', 'usernumattemptsforcecloseattempts', get_string('forcecloseattempts', 'quizaccess_usernumattempts'));
     }
 
     public function prevent_new_attempt($numprevattempts, $lastattempt) {
@@ -80,6 +81,14 @@ class quizaccess_usernumattempts extends quiz_access_rule_base {
     }
 
     /**
+     * This is called when the current attempt at the quiz is finished. This is
+     * used, for example by the password rule, to clear the flag in the session.
+     */
+    public function current_attempt_finished() {
+        return $this->force_close_attempts();
+    }
+
+    /**
      * Save any submitted settings when the quiz settings form is submitted. This
      * is called from {@link quiz_after_add_or_update()} in lib.php.
      * @param object $quiz the data from the quiz form, including $quiz->id
@@ -91,17 +100,20 @@ class quizaccess_usernumattempts extends quiz_access_rule_base {
         if (!empty($quiz->usernumattemptsenabled)) {
             if ($oldrecord = $DB->get_record('qa_usernumattempts', array('quizid' => $quiz->id))) {
                 $oldrecord->enabled = 1;
+                $oldrecord->forcecloseattempts = $quiz->usernumattemptsforcecloseattempts;
                 $DB->update_record('qa_usernumattempts', $oldrecord);
             } else {
                 $record = new Stdclass;
                 $record->enabled = 1;
+                $oldrecord->forcecloseattempts = $quiz->usernumattemptsforcecloseattempts;
                 $record->quizid = $quiz->id;
                 $DB->insert_record('qa_usernumattempts', $record);
             }
         } else {
             if ($oldrecord = $DB->get_record('qa_usernumattempts', array('quizid' => $quiz->id))) {
                 $oldrecord->enabled = 0;
-                $DB->update_record('qa_usernumattempts', $record);
+                $oldrecord->forcecloseattempts = $quiz->usernumattemptsforcecloseattempts;
+                $DB->update_record('qa_usernumattempts', $oldrecord);
             }
         }
     }
@@ -141,7 +153,7 @@ class quizaccess_usernumattempts extends quiz_access_rule_base {
      *        plugin name, to avoid collisions.
      */
     public static function get_settings_sql($quizid) {
-        return array('qaun.enabled as usernumattemptsenabled',
+        return array('qaun.enabled as usernumattemptsenabled, qaun.forcecloseattempts as usernumattemptsforcecloseattempts',
                      'LEFT JOIN {qa_usernumattempts} qaun ON qaun.quizid = quiz.id ',
                      array());
     }
@@ -152,5 +164,13 @@ class quizaccess_usernumattempts extends quiz_access_rule_base {
         $params = array('quizid' => $this->quiz->id);
         $enabled = $DB->get_field('qa_usernumattempts', 'enabled', $params);
         return $enabled;
+    }
+
+    public function force_close_attempts() {
+        global $DB;
+
+        $params = array('quizid' => $this->quiz->id);
+        $setting = $DB->get_field('qa_usernumattempts', 'forcecloseattempts', $params);
+        return $setting;
     }
 }
