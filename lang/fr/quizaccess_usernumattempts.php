@@ -29,3 +29,5 @@ $string['attemptsallowedn'] = 'Tentatives allouées pour l\'utilisateur : {$a}';
 $string['pluginname'] = 'Tentatives allouées par utilisateur';
 $string['nomoreattempts'] = 'Vous n\'avez plus de tentatives dans votre compte.';
 $string['enable'] = 'Activer la limitation de tentatives par utilisateur';
+$string['forcecloseattempts'] = 'Forcer la fermeture des tentatives';
+
