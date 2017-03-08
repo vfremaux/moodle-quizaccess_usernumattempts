@@ -26,11 +26,11 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2017030700;
+$plugin->version   = 2016102101;
 $plugin->requires  = 2016051900;
 $plugin->component = 'quizaccess_usernumattempts';
-$plugin->release = '3.1.0 (Build 2017030700)';
+$plugin->release = '3.2.0 (Build 2017030700)';
 $plugin->maturity = MATURITY_BETA;
 
 // Non Moodle attributes.
-$plugin->codeincrement = '3.1.0001';
+$plugin->codeincrement = '3.2.0001';
