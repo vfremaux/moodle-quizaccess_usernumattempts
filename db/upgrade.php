@@ -66,4 +66,18 @@ function xmldb_quizaccess_usernumattempts_upgrade($oldversion = 0) {
 
         upgrade_plugin_savepoint(true, 2016102101, 'quizaccess', 'usernumattempts');
     }
+
+    if ($oldversion < 2017030700) {
+        // Define table to be updated.
+        $table = new xmldb_table('qa_usernumattempts');
+
+        $field = new xmldb_field('forcecloseattempts', XMLDB_TYPE_INTEGER, '1', null, null, null, '0', 'enabled');
+
+        // Conditionally launch add field forcecloseattempts.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        upgrade_plugin_savepoint(true, 2017030700, 'quizaccess', 'usernumattempts');
+    }
 }
