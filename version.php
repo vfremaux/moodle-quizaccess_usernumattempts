@@ -32,5 +32,5 @@ $plugin->component = 'quizaccess_usernumattempts';
 $plugin->release = '3.1.0 (Build 2017030700)';
 $plugin->maturity = MATURITY_BETA;
 
-// Non Moodle attributes.
+// Non moodle attributes.
 $plugin->codeincrement = '3.1.0001';

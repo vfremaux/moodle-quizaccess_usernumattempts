@@ -100,12 +100,12 @@ class quizaccess_usernumattempts extends quiz_access_rule_base {
         if (!empty($quiz->usernumattemptsenabled)) {
             if ($oldrecord = $DB->get_record('qa_usernumattempts', array('quizid' => $quiz->id))) {
                 $oldrecord->enabled = 1;
-                $oldrecord->forcecloseattempts = $quiz->usernumattemptsforcecloseattempts;
+                $oldrecord->forcecloseattempts = @$quiz->usernumattemptsforcecloseattempts;
                 $DB->update_record('qa_usernumattempts', $oldrecord);
             } else {
                 $record = new Stdclass;
                 $record->enabled = 1;
-                $oldrecord->forcecloseattempts = $quiz->usernumattemptsforcecloseattempts;
+                $record->forcecloseattempts = $quiz->usernumattemptsforcecloseattempts;
                 $record->quizid = $quiz->id;
                 $DB->insert_record('qa_usernumattempts', $record);
             }
