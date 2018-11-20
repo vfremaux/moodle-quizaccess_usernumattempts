@@ -25,6 +25,9 @@
  */
 defined('MOODLE_INTERNAL') || die();
 
+// Privacy.
+$string['privacy:metadata'] = 'The User Num Atempts Access Rule plugin does not store any personal data about any user.';
+
 $string['attemptsallowedn'] = 'Attempts allowed for user : {$a}';
 $string['pluginname'] = 'Number of attempts per user quiz access rule';
 $string['nomoreattempts'] = 'You have no more attempts into your user account.';
