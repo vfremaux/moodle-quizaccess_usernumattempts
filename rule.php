@@ -75,7 +75,7 @@ class quizaccess_usernumattempts extends quiz_access_rule_base {
         if ($this->is_enabled()) {
             $params = array('quizid' => $this->quiz->id, 'userid' => $USER->id);
             $usermaxattempts = $DB->get_field('qa_usernumattempts_limits', 'maxattempts', $params);
-            return $numprevattempts >= $this->quiz->attempts;
+            return $numprevattempts >= $usermaxattempts;
         }
         return false;
     }
@@ -100,19 +100,19 @@ class quizaccess_usernumattempts extends quiz_access_rule_base {
         if (!empty($quiz->usernumattemptsenabled)) {
             if ($oldrecord = $DB->get_record('qa_usernumattempts', array('quizid' => $quiz->id))) {
                 $oldrecord->enabled = 1;
-                $oldrecord->forcecloseattempts = @$quiz->usernumattemptsforcecloseattempts;
+                $oldrecord->forcecloseattempts = 0 + @$quiz->usernumattemptsforcecloseattempts;
                 $DB->update_record('qa_usernumattempts', $oldrecord);
             } else {
                 $record = new Stdclass;
                 $record->enabled = 1;
-                $record->forcecloseattempts = $quiz->usernumattemptsforcecloseattempts;
+                $record->forcecloseattempts = 0 + @$quiz->usernumattemptsforcecloseattempts;
                 $record->quizid = $quiz->id;
                 $DB->insert_record('qa_usernumattempts', $record);
             }
         } else {
             if ($oldrecord = $DB->get_record('qa_usernumattempts', array('quizid' => $quiz->id))) {
                 $oldrecord->enabled = 0;
-                $oldrecord->forcecloseattempts = $quiz->usernumattemptsforcecloseattempts;
+                $oldrecord->forcecloseattempts = 0 + @$quiz->usernumattemptsforcecloseattempts;
                 $DB->update_record('qa_usernumattempts', $oldrecord);
             }
         }
