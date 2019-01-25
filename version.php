@@ -37,11 +37,15 @@ $plugin->maturity = MATURITY_BETA;
 $plugin->codeincrement = '3.2.0001';
 =======
 $plugin->version   = 2017030700;
-$plugin->requires  = 2018042700;
+$plugin->requires  = 2018112800;
 $plugin->component = 'quizaccess_usernumattempts';
-$plugin->release = '3.5.0 (Build 2017030700)';
+$plugin->release = '3.6.0 (Build 2017030700)';
 $plugin->maturity = MATURITY_STABLE;
 
 // Non moodle attributes.
+<<<<<<< HEAD
 $plugin->codeincrement = '3.5.0001';
 >>>>>>> MOODLE_35_STABLE
+=======
+$plugin->codeincrement = '3.6.0001';
+>>>>>>> MOODLE_36_STABLE
