@@ -75,7 +75,7 @@ class quizaccess_usernumattempts extends quiz_access_rule_base {
         if ($this->is_enabled()) {
             $params = array('quizid' => $this->quiz->id, 'userid' => $USER->id);
             $usermaxattempts = $DB->get_field('qa_usernumattempts_limits', 'maxattempts', $params);
-            return $numprevattempts >= $this->quiz->attempts;
+            return $numprevattempts >= $usermaxattempts;
         }
         return false;
     }
