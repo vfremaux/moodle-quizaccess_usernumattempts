@@ -27,7 +27,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->version   = 2017030700;
-$plugin->requires  = 2019112200;
+$plugin->requires  = 2019111200;
 $plugin->component = 'quizaccess_usernumattempts';
 $plugin->release = '3.8.0 (Build 2017030700)';
 $plugin->maturity = MATURITY_STABLE;
