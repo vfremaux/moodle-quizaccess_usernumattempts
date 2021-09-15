@@ -51,9 +51,8 @@ class quizaccess_usernumattempts extends quiz_access_rule_base {
 
     public static function add_settings_form_fields(mod_quiz_mod_form $quizform, MoodlequickForm $mform) {
 
-        $mform->addElement('advcheckbox', 'usernumattemptsenabled', get_string('enable', 'quizaccess_usernumattempts'));
-        $mform->addElement('advcheckbox', 'usernumattemptsforcecloseattempts', get_string('forcecloseattempts', 'quizaccess_usernumattempts'));
-        $mform->disabledIf('usernumattemptsforcecloseattempts', 'usernumattemptsenabled', 'notchecked');
+        $mform->addElement('checkbox', 'usernumattemptsenabled', get_string('enable', 'quizaccess_usernumattempts'));
+        $mform->addElement('checkbox', 'usernumattemptsforcecloseattempts', get_string('forcecloseattempts', 'quizaccess_usernumattempts'));
     }
 
     public function prevent_new_attempt($numprevattempts, $lastattempt) {
